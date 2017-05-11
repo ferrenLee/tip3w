@@ -37,9 +37,12 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
+        //后台路由
+        $this->mapAdminRoutes();
+
         $this->mapWebRoutes();
 
-        //
+
     }
 
     /**
@@ -65,9 +68,17 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
-             ->middleware('api')
+        Route::middleware('api')
              ->namespace($this->namespace)
+             ->domain(config('tip3w.website.api_url'))
              ->group(base_path('routes/api.php'));
+    }
+
+    protected function mapAdminRoutes()
+    {
+        Route::middleware('admin')
+            ->namespace($this->namespace)
+            ->domain(config('tip3w.website.admin_url'))
+            ->group(base_path('routes/admin.php'));
     }
 }
